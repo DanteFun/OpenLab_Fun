@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title>Dashio - Bootstrap Admin Template</title>
+
+    <!-- Favicons -->
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--external css-->
+    <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+    <!-- =======================================================
+      Template Name: Dashio
+      Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+      Author: TemplateMag.com
+      License: https://templatemag.com/license/
+    ======================================================= -->
+
+    <link href="css/mycss.css" rel="stylesheet">
+</head>
+<body>
+<section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+    <header class="header black-bg">
+        <div class="sidebar-toggle-box">
+            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+        </div>
+        <!--logo start-->
+        <a href="index.html" class="logo"><b>Dante<span>Fun</span></b></a>
+        <!--logo end-->
+        <div class="nav notify-row" id="top_menu">
+            <!--  notification start -->
+            <div class="btn-group">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        点此操作
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" id="InsertTB">添加表</a></li>
+                        <li><a href="#" id="ImportEX">导入Excel</a></li>
+                        <li><a href="#" id="AllDeleteTB">全部删除</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="top-menu">
+            <ul class="nav pull-right top-menu">
+                <li>
+                    <a class="logout" href="login.html">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <!--header end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN SIDEBAR MENU
+        *********************************************************************************************************************************************************** -->
+    <!--sidebar start-->
+    <aside>
+        <div id="sidebar" class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="nav-accordion">
+                <p class="centered">
+                    <a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a>
+                </p>
+                <h5 class="centered">Sam Soffes</h5>s
+                <li class="sub-menu">
+                    <a class="active" href="javascript:;">
+                        <i class="fa fa-th"></i>
+                        <span>你的主页</span>
+                    </a>
+                    <ul class="sub">
+                        <li>
+                            <a href="TestSubscribe.html">实验预约</a>
+                        </li>
+                        <li class="active">
+                            <a href="#">发布技术动态</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+        <section id="MyPanel" class="wrapper">
+            <h1><i class="fa fa-angle-right"></i> 技术交流</h1>
+            <div class="row mt">
+                <div class="col-md-12">
+                    <form id="Share_Form" action="PHP/MyDataBase.php" method="post">
+                        <div id="Info_Share" class="row content-panel mt mb">
+                            <div class="col-lg-9">
+                                <h2>技术标题</h2>
+                                <textarea class="form-control" rows="1" name="content_title"></textarea>
+                                <h2>实现语言类别</h2>
+                                <select name="choose_language">
+                                    <option name = "web_build">网站建设</option>
+                                    <option name = "HardWare">硬件底层</option>
+                                    <option name = "Net_attack">网络攻防</option>
+                                    <option name = "Arithmatic">算法实现</option>
+                                    <option name = "DeepLearning">深度学习</option>
+                                </select>
+                                <h2>技术内容</h2>
+                                <textarea class="form-control" rows="20" name="tec_content"></textarea>
+                                <button class="btn btn-primary" name = "submit" onclick="return Form_Deploy_Ajax()">发布</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+    <!--footer start-->
+    <footer class="site-footer">
+        <div class="text-center">
+            <p>
+                &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
+            </p>
+            <div class="credits">
+                <!--
+                  You are NOT allowed to delete the credit link to TemplateMag with free version.
+                  You can delete the credit link only if you bought the pro version.
+                  Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/dashio-bootstrap-admin-template/
+                  Licensing information: https://templatemag.com/license/
+                -->
+                Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
+            </div>
+            <a href="basic_table.html#" class="go-top">
+                <i class="fa fa-angle-up"></i>
+            </a>
+        </div>
+    </footer>
+</section>
+<script src="lib/jquery/jquery.min.js"></script>
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+<script src="lib/jquery.scrollTo.min.js"></script>
+<script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+<script src="lib/common-scripts.js"></script>
+<script src="myjs/jquery.form.js"></script>
+<script>
+    function Form_Deploy_Ajax() {
+        $("#Share_Form").ajaxForm({
+            url:'PHP/MyDataBase.php',
+            data_type:String,
+            data:{Operation: 'TEC_SHARE'},
+            success:function (response) {
+                alert(response);
+            }
+        })
+    }
+</script>
+</body>
+</body>
+</html>

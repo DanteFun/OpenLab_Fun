@@ -1,0 +1,20 @@
+#Login{
+    padding: 40px;
+    background-color: snow;
+    top: 33%;
+    left: 33%;
+    position: fixed;
+    width: 400px;
+    display: none;
+    margin: auto;
+    float: inside;
+    border-radius: 10px 10px 10px 10px;
+}
+ #insert_TB{
+     top: 33%;
+     left: 33%;
+     position: fixed;
+     width: 400px;
+     display: none;
+     margin: auto;
+ }

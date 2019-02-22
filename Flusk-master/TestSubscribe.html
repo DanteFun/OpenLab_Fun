@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title>Dashio - Bootstrap Admin Template</title>
+
+    <!-- Favicons -->
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--external css-->
+    <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+    <!-- =======================================================
+      Template Name: Dashio
+      Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+      Author: TemplateMag.com
+      License: https://templatemag.com/license/
+    ======================================================= -->
+
+    <link href="css/mycss.css" rel="stylesheet">
+</head>
+<body>
+<section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+    <header class="header black-bg">
+        <div class="sidebar-toggle-box">
+            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+        </div>
+        <!--logo start-->
+        <a href="index.html" class="logo"><b>Dante<span>Fun</span></b></a>
+        <!--logo end-->
+        <div class="top-menu">
+            <ul class="nav pull-right top-menu">
+                <li>
+                    <a class="logout" href="login.html">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <!--header end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN SIDEBAR MENU
+        *********************************************************************************************************************************************************** -->
+    <!--sidebar start-->
+    <aside>
+        <div id="sidebar" class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="nav-accordion">
+                <p class="centered">
+                    <a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a>
+                </p>
+                <h5 class="centered">Sam Soffes</h5>
+                <li class="sub-menu">
+                    <a class="active" href="javascript:;">
+                        <i class="fa fa-th"></i>
+                        <span>你的主页</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="active">
+                            <a href="#">实验预约</a>
+                        </li>
+                        <li>
+                            <a href="TechnologyShare.html">发布技术动态</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+        <section id="MyPanel" class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> 实验预约</h3>
+            <div class="row mt">
+                <div class="col-md-12">
+                    <div id="Order_Test" class="content-panel">
+                        <table id="Order_Table" class="table table-striped table-advance table-hover table-bordered">
+                            <i class="fa fa-angle-right">可预约实验</i>
+                            <thead>
+                            <tr id="Order_head">
+                                <th>实验名称</th>
+                                <th>实验教室</th>
+                                <th>下发老师</th>
+                                <th>预约日期</th>
+                                <th>预约课时</th>
+                                <th>submit</th>
+                            </tr>
+                            </thead>
+                            <tbody id="Order_tbody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /content-panel -->
+                </div>
+                <!-- /col-md-12 -->
+            </div>
+            <!-- /row -->
+            <h3><i class="fa fa-angle-right"></i> 您已预约的实验</h3>
+            <div class="row mt">
+                <div class="col-md-12">
+                    <div id="Ordered_Test" class="content-panel">
+                        <table id="Ordered_Table" class="table table-striped table-advance table-hover table-bordered">
+                            <i class="fa fa-angle-right">实验信息</i>
+                            <thead>
+                            <tr id="Ordered_head">
+                                <th>实验名称</th>
+                                <th>实验教室</th>
+                                <th>预约日期</th>
+                                <th>预约课时</th>
+                                <th>submit</th>
+                            </tr>
+                            </thead>
+                            <tbody id="Ordered_tbody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /content-panel -->
+                </div>
+                <!-- /col-md-12 -->
+            </div>
+            <!-- /row -->
+        </section>
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+    <!--footer start-->
+    <footer class="site-footer">
+        <div class="text-center">
+            <p>
+                &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
+            </p>
+            <div class="credits">
+                <!--
+                  You are NOT allowed to delete the credit link to TemplateMag with free version.
+                  You can delete the credit link only if you bought the pro version.
+                  Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/dashio-bootstrap-admin-template/
+                  Licensing information: https://templatemag.com/license/
+                -->
+                Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
+            </div>
+            <a href="basic_table.html#" class="go-top">
+                <i class="fa fa-angle-up"></i>
+            </a>
+        </div>
+    </footer>
+    <!--footer end-->
+</section>
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="lib/jquery/jquery.min.js"></script>
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+<script src="lib/jquery.scrollTo.min.js"></script>
+<script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+<!--common script for all pages-->
+<script src="lib/common-scripts.js"></script>
+<script>
+    function SubscribeTime(){
+        var i = 0;
+        var Day,Month;
+        var ResultDate = new Array();
+        var date = new Date();
+        var LocalYear = date.getFullYear();
+        var LocalMonth = date.getMonth()+1;
+        var LocalDate = date.getDate();
+
+        var TempDay = new Date(LocalYear,LocalMonth,0);
+        var LocalMaxDate = TempDay.getDate();
+        while(i<30)
+        {
+            Day = LocalDate + i;
+            Month = LocalMonth + 1;
+            if(Day <= LocalMaxDate)
+            {
+                ResultDate[i] = ''+LocalYear+'-'+LocalMonth+'-'+Day;
+            }
+            else
+            {
+                ResultDate[i] = ''+LocalYear+'-'+Month+'-'+(Day%LocalMaxDate);
+            }
+            i++;
+        }
+        return ResultDate;
+    }
+    $(document).ready(function () {
+        var student_name,major;
+        var Classes = new Array();
+        Classes = ['上午一二节','上午三四节','上午第五节','下午一二节','下午三四节','晚上一二节','晚上第三节'];
+        student_name = decodeURI(parent.document.URL).slice(decodeURI(parent.document.URL).indexOf('?')+1);
+        $.post("php/MyDataBase.php",
+        {
+            student_name:student_name,
+            Operation:'GET_DEPLOYED',
+        },
+        function(data,status){
+            var temp_data = JSON.parse(data);
+            console.log(temp_data);
+            major = temp_data.pop();
+            var Subscribe_Time = SubscribeTime();
+            var i,j,temp_name;
+            for(i=0;i<temp_data.length;i++)
+            {
+                $("#Order_tbody").append('<tr id="Order_tr_'+i+'">');
+            }
+            for(i=0;i<temp_data.length;i++)
+            {
+                temp_name = '#Order_tr_'+i;
+                for(j=0;j<temp_data[i].length;j++)
+                {
+                    $(temp_name).append('<td id="'+String(i)+'Order_td_'+String(j)+'">'+temp_data[i][j]+'</td>');
+                }
+            }
+            for(i=0;i<temp_data.length;i++)
+            {
+                temp_name = '#Order_tr_'+i;
+                $(temp_name).append('<td><select id="select_'+i+'" name="select_Name"></select></td>');
+                $(temp_name).append('<td><select id="select1_'+i+'" name="select1_Name"></select></td>');
+                $(temp_name).append('<button class="btn btn-theme02" type="button" id="Ode_'+String(i)+'">预约实验</button>');
+            }
+            for(i=0;i<temp_data.length;i++)
+            {
+                temp_name = '#select_'+i;
+                for(j=0;j<Subscribe_Time.length;j++)
+                {
+                    $(temp_name).append('<option name = "option_"'+String(i)+String(j)+' value ="'+Subscribe_Time[j]+'">'+Subscribe_Time[j]+'</option>');
+                }
+                temp_name = '#select1_'+i;
+                for(j=0;j<Classes.length;j++)
+                {
+                    $(temp_name).append('<option name = "option1_"'+String(i)+String(j)+' value ="'+Classes[j]+'">'+Classes[j]+'</option>');
+                }
+            }
+        });
+        $('#Order_tbody').on('click', function(event) {
+            var temp_name,button_id,test_name,room_name,subscribe_date,subscribe_time,select_temp;
+            temp_name = $(event.target).closest('button').attr("id");
+            temp_name = temp_name.split('_');
+            button_id = temp_name[1];
+
+            test_name = document.getElementById(button_id+'Order_td_0').innerText;
+            room_name = document.getElementById(button_id+'Order_td_1').innerText;
+
+            select_temp = document.getElementById('select_'+button_id);
+            subscribe_date = select_temp.options[select_temp.selectedIndex].text;
+            select_temp = document.getElementById('select1_'+button_id);
+            subscribe_time = select_temp.options[select_temp.selectedIndex].text;
+
+
+            $.post("PHP/MyDataBase.php",
+            {
+                test_name:test_name,
+                room_name:room_name,
+                subscribe_date:subscribe_date,
+                subscribe_time:subscribe_time,
+                student_name:student_name,
+                major:major,
+                Operation:'INSERT_SUBSCRIBE'
+            },
+            function(data,status){
+                alert(data);
+                location.reload();
+                // var temp_data = JSON.parse(data);
+                // console.log(temp_data);
+                // console.log(data);
+            });
+        });
+        // $.post("PHP/YoursTest.php",
+        // {
+        //     student_name:student_name,
+        // },
+        // function(data,status){
+        //     var temp_data = JSON.parse(data);
+        //     var i,j,temp_name;
+        //     console.log(temp_data)
+        //     for(i=0;i<temp_data.length;i++)
+        //     {
+        //         $("#Ordered_tbody").append('<tr id="Ordered_tr_'+i+'">');
+        //     }
+        //     for(i=0;i<temp_data.length;i++)
+        //     {
+        //         temp_name = '#Ordered_tr_'+i;
+        //         for(j=0;j<temp_data[i].length;j++)
+        //         {
+        //             $(temp_name).append('<td id="'+String(i)+'Ordered_td_'+String(j)+'">'+temp_data[i][j]+'</td>');
+        //         }
+        //         $(temp_name).append('<button class="btn btn-theme04" type="button" id="Oded_'+String(i)+'">取消预约</button>');
+        //     }
+        // });
+        //
+        // $('#Ordered_tbody').on('click', function(event) {
+        //     var temp_name,button_id,test_name,subscribe_date,subscribe_time;
+        //     temp_name = $(event.target).closest('button').attr("id");
+        //     temp_name = temp_name.split('_');
+        //     button_id = temp_name[1];
+        //
+        //     test_name = document.getElementById(button_id+'Ordered_td_0').innerText;
+        //     subscribe_date = document.getElementById(button_id+'Ordered_td_2').innerText;
+        //     subscribe_time = document.getElementById(button_id+'Ordered_td_3').innerText;
+        //
+        //     $.post("PHP/cancelTest.php",
+        //     {
+        //         test_name:test_name,
+        //         subscribe_date:subscribe_date,
+        //         subscribe_time:subscribe_time,
+        //     },
+        //     function(data,status){
+        //         //var temp_data = JSON.parse(data);
+        //         alert(data);
+        //         location.reload();
+        //     });
+        // });
+    });
+</script>
+</body>
+</body>
+</html>
