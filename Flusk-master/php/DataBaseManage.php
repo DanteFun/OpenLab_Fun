@@ -32,12 +32,6 @@ class DataBaseManage
         $this->disconnect();
     }
 
-    public function test()
-    {
-        return 1;
-        echo '语句';
-    }
-
     public function connect()
     {
         $this->connObject = mysqli_connect($this->host,$this->username,$this->password);
@@ -98,7 +92,7 @@ class DataBaseManage
         }
         else
         {
-            if($this->New_CreateTable($Table_Name,$Field_Name,0))
+            if($this->CreateTable($Table_Name,$Field_Name,0))
             {
                 $Sql = 'insert into '.$Table_Name.' values('.$Value.');';
                 if(mysqli_query($this->connObject,$Sql))
@@ -115,7 +109,7 @@ class DataBaseManage
         }
     }
 
-    public function ItemsInTable($Item,$Table_Name,$Condition_Name,$Condition_Value)
+    public function ItemsInTable($Item,$Table_Name,$Condition_Name,$Condition_Value,$Is_Distinct)
     {
         $i = 0;
         $row = 0;
@@ -137,7 +131,14 @@ class DataBaseManage
             $Condition.= $i == $Condition_Number - 1 ? ';':' and ';
             $i++;
         }
-        $Sql = 'select '.$Items.' from '.$Table_Name;
+        if($Is_Distinct == 1)
+        {
+            $Sql = 'select distinct '.$Items.' from '.$Table_Name;
+        }
+        else
+        {
+            $Sql = 'select '.$Items.' from '.$Table_Name;
+        }
         $Sql.= count($Condition_Name) == 0 ? '; ': ' where '.$Condition;
         $this->result = mysqli_query($this->connObject,$Sql);
         if($this->result == false)
@@ -224,13 +225,17 @@ class DataBaseManage
         while($i < $Field_Count-1)
         {
             $Result_Arr[$i] = 'varchar(20)';
+            if($Field_Name[$i] == '仪器个数')
+            {
+                $Result_Arr[$i] = 'int';
+            }
             $i++;
         }
         $Result_Arr[$i] = $Field_Name[$i] == '密码' ? 'varchar(20)' : 'varchar(600)';
         return $Result_Arr;
     }
 
-    public function New_CreateTable($Table_Name,$Field_Name,$IS_PK)
+    public function CreateTable($Table_Name,$Field_Name,$IS_PK)
     {
         $Field_Type = $this->Field_Type($Field_Name);
         $sql = 'create table '.$Table_Name.'(';
@@ -254,7 +259,6 @@ class DataBaseManage
             }
         }
         $sql.=');';
-        echo $sql;
         if(mysqli_query($this->connObject,$sql))
         {
             $this->resultRecord = $Table_Name.' 创建成功！';
@@ -302,7 +306,6 @@ class DataBaseManage
             $i++;
         }
         $Sql = 'delete from '.$table_name.' where '.$items;
-        echo $Sql;
         if(mysqli_query($this->connObject,$Sql))
         {
             $this->resultRecord = $Condition[0].' 删除成功！';
@@ -352,7 +355,7 @@ class DataBaseManage
                     $IS_PK = 1;
                     break;
             }
-            $this->New_CreateTable($table_name,$table_content[1],$IS_PK);
+            $this->CreateTable($table_name,$table_content[1],$IS_PK);
             for($index = 2;$index < count($table_content);$index++)
             {
                 $temp = "INSERT INTO ".$table_name." VALUES"."(";
@@ -376,366 +379,4 @@ class DataBaseManage
             }
         }
     }
-
-
-//    public function ExcelToTable($table_name,$table_content,$table_rowlen)
-//    {
-//        $sql = "";
-//        if(!$this->Table_Existed($table_name))
-//        {
-//            $this->New_CreateTable($table_name,$table_content[1],$table_rowlen);
-//        }
-//
-//
-//        for($index = 2;$index<count($table_content);$index++)
-//        {
-//            $temp = "INSERT INTO ".$table_name." VALUES"."( ";
-//            for($indexJ = 0;$indexJ<$table_rowlen;$indexJ++)
-//            {
-//                if($indexJ == $table_rowlen-1)
-//                {
-//                    if($table_name == '老师'|| $table_name == '学生')
-//                    {
-//                        $temp.="'".$table_content[$index][$indexJ]."'".",";
-//                        $temp.="123456);";
-//                    }
-//                    else
-//                    {
-//                        $temp.="'".$table_content[$index][$indexJ]."'".");";
-//                    }
-//                }
-//                else
-//                {
-//                    $temp.="'".$table_content[$index][$indexJ]."'".",";
-//                }
-//            }
-//            $sql.=$temp;
-//        }
-//        return mysqli_multi_query($this->connObject,$sql);
-//    }
-
-//    public function Login($ID_Name,$Password,$IsTeacher)
-//    {
-//        if($IsTeacher)
-//        {
-//            $return_SQL = "select 教师姓名,密码 from 老师 where 教师姓名 = "."'".$ID_Name."'".";";
-//            $this->result = mysqli_query($this->connObject,$return_SQL);
-//            $this->row = mysqli_num_rows($this->result);
-//            if($this->row == 0)
-//            {
-//                return -1;
-//            }
-//            else
-//            {
-//                while($row = $this->result->fetch_assoc())
-//                {
-//                    if($row["密码"] == $Password)
-//                    {
-//                        return 1;
-//                    }
-//                    else
-//                    {
-//                        return 0;
-//                    }
-//                }
-//            }
-//        }
-//        else
-//        {
-//            $return_SQL = "select 姓名,密码 from 学生 where 姓名 = "."'".$ID_Name."'".";";
-//            $this->result = mysqli_query($this->connObject,$return_SQL);
-//            $this->row = mysqli_num_rows($this->result);
-//            if($this->row == 0)
-//            {
-//                return -1;
-//            }
-//            else
-//            {
-//                while($row = $this->result->fetch_assoc())
-//                {
-//                    if($row["密码"] == $Password)
-//                    {
-//                        return 2;
-//                    }
-//                    else
-//                    {
-//                        return 0;
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-
-//    public function Get_Major($student_name)
-//    {
-//        $result_arr = '';
-//        $test_name = array();
-//        $lab_address = array();
-//        $teacher_name = array();
-//        $sql = 'select 班级 from 学生 where 姓名 = "'.$student_name.'";';
-//        $this->result=mysqli_query($this->connObject,$sql);
-//        while($ass_arr = mysqli_fetch_assoc($this->result))
-//        {
-//            $result_arr = $ass_arr["班级"];
-//        }
-//        $Major = substr($result_arr,0,6);
-//        $sql = 'select * from 下发实验 where 实验系别 = "'.$Major.'";';
-//        $this->result=mysqli_query($this->connObject,$sql);
-//        while($ass_arr = mysqli_fetch_assoc($this->result))
-//        {
-//            $test_name[] = $ass_arr["实验名称"];
-//            $lab_address[] = $ass_arr["实验室地址"];
-//            $teacher_name[] = $ass_arr["教师名称"];
-//        }
-//        $result = [$test_name,$lab_address,$teacher_name,$Major];
-//        return $result;
-//    }
-
-//    public function get_test($item,$teacher_name)
-//    {
-//        $Major = "";
-//        if($item == 'test')
-//        {
-//            $sql = "select 实验号,实验名称,实验系别 from 实验 where 实验系别 = (select 教师系别 from 老师 where 教师姓名 = '".$teacher_name."');";
-//        }
-//        else
-//        {
-//            $sql = "select 仪器名,仪器个数 from 实验仪器 where 仪器系别 = (select 教师系别 from 老师 where 教师姓名 = '".$teacher_name."');";
-//        }
-//        $this->result=mysqli_query($this->connObject,$sql);
-//        $result_arr = array();
-//        while($ass_arr = mysqli_fetch_assoc($this->result))
-//        {
-//            if($item == 'test')
-//            {
-//                $result_arr[0][] = $ass_arr["实验号"];
-//                $result_arr[1][] = $ass_arr["实验名称"];
-//                $Major = $ass_arr["实验系别"];
-//            }
-//            else
-//            {
-//                $result_arr[0][] = $ass_arr["仪器名"];
-//                $result_arr[1][] = $ass_arr["仪器个数"];
-//            }
-//        }
-//        $result_arr[2] = $Major;
-//        return $result_arr;
-//    }
-
-
-
-//    public function All_testroom()
-//    {
-//        $sql = "select 使用中,实验室地址 from 实验室;";
-//        $this->result=mysqli_query($this->connObject,$sql);
-//        $result_arr = array();
-//        while($ass_arr = mysqli_fetch_assoc($this->result))
-//        {
-//            if($ass_arr["使用中"] == 0)
-//            {
-//                $result_arr[] = $ass_arr["实验室地址"];
-//            }
-//        }
-//        return $result_arr;
-//    }
-
-//    public function delete_content($sql)
-//    {
-//        return $this->result = mysqli_query($this->connObject,$sql);
-//    }
-
-
-//    public function createDatabase($databasename)
-//    {
-//        $sql ='create database ' . $databasename.";";
-//        if(mysqli_query($this->connObject,$sql))
-//        {
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
-//
-//    public function dropDatabase($databasename)
-//    {
-//        $sql ="drop database ". $databasename.";";
-//        if(mysqli_query($this->connObject,$sql))
-//        {
-//            echo "drop database success!";
-//        }
-//        else
-//        {
-//            echo "drop database failure!";
-//        }
-//    }
-//
-
-
-//    public function update_lab($address,$value,$device_name,$device_num)
-//    {
-//        $sql = "update 实验室 set 使用中 = $value where 实验室地址='".$address."';";
-//        $this->result=mysqli_query($this->connObject,$sql);
-//        if($device_name!=''&&$device_num!='')
-//        {
-//            for($i = 0;$i<count($device_name);$i++)
-//            {
-//                $sql = "update 实验仪器 set 仪器个数 = $device_num[$i] where 仪器名='".$device_name[$i]."';";
-//                $this->result=mysqli_query($this->connObject,$sql);
-//            }
-//        }
-//        return $this->result;
-//    }
-
-//    public function Insert_Table($sql)
-//    {
-//        $this->result=mysqli_query($this->connObject,$sql);
-//        return $this->result;
-//    }
-
-//    public function SubScribedRoom($subscribe_date,$subscribe_time)
-//    {
-//        $result = 0;
-//        $sql = 'select * from 已预约实验';
-//        $this->result=mysqli_query($this->connObject,$sql);
-//        while($ass_arr = mysqli_fetch_assoc($this->result))
-//        {
-//            if($subscribe_date == ($ass_arr["实验日期"]) &&$subscribe_time == ($ass_arr["实验课时"]))
-//            {
-//                $result = 1;
-//            }
-//        }
-//        return $result;
-//    }
-
-//    public function SQLDataType($SQLData)
-//    {
-//        $type = gettype($SQLData);
-//        $return_SQL = "";
-//        switch ($type)
-//        {
-//            case 'integer':
-//                $return_SQL = " INT(10)";
-//                break;
-//            case 'float':
-//                $return_SQL = " FLOAT(4)";
-//                break;
-//            case 'string':
-//                $return_SQL = " VARCHAR(20)";
-//                break;
-//            default:
-//                break;
-//        }
-//        if($SQLData=="性别")
-//        {
-//            $return_SQL = " VARCHAR(4)";
-//        }
-//        return $return_SQL;
-//    }
-
-
-
-//    public function CreateTable($table_name,$content_First,$table_rowlen)
-//    {
-//        $sql = "";
-//        for($index=0;$index<$table_rowlen;$index++)
-//        {
-//            if($index==0)
-//            {
-//                if($table_name == '已预约实验')
-//                {
-//                    $sql = "create table ".$table_name."(".$content_First[$index]." ".$this->SQLDataType($content_First[$index]).' NOT NULL,';
-//
-//                }
-//                else
-//                {
-//                    $sql = "create table ".$table_name."(".$content_First[$index]." ".$this->SQLDataType($content_First[$index])." PRIMARY KEY,";
-//                }
-//            }
-//            else if(($table_name != '老师')&&($table_name != '学生')&&$index==$table_rowlen-1)
-//            {
-//                $sql.= $content_First[$index]." varchar(600));";
-//            }
-//            else
-//            {
-//                $sql.= $content_First[$index]." ".$this->SQLDataType($content_First[$index]).",";
-//            }
-//        }
-//
-//        if($table_name == '老师'|| $table_name == '学生')
-//        {
-//            $sql.= "密码  VARCHAR(20) NOT NULL);";
-//        }
-//        echo $sql;
-//        if(mysqli_query($this->connObject,$sql))
-//        {
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
-
-
-
-//    public function selectPartContent($table_name,$Field,$condition_name,$condition)
-//    {
-//        $result_arr = array();
-//        $var = 0;
-//        $sql = "select * from  $table_name where $condition_name = '$condition';";
-//        $this->result=mysqli_query($this->connObject,$sql);
-//        while($ass_arr = mysqli_fetch_assoc($this->result))
-//        {
-//            for($j = 0;$j < count($Field);$j++)
-//            {
-//                $result_arr[$var][$j] = $ass_arr[$Field[$j]];
-//            }
-//            $var++;
-//        }
-//        return $result_arr;
-//    }
-//
-//    public function selectAllContent($table_name,$Field)
-//    {
-//        $result_arr = array();
-//        $result_temp = array();
-//        $var = 0;
-//        for($i = 0;$i < count($table_name);$i++)
-//        {
-//            $sql = "select * from  $table_name[$i]";
-//            $this->result=mysqli_query($this->connObject,$sql);
-//            $this->row = mysqli_num_rows($this->result);
-//            while($ass_arr = mysqli_fetch_assoc($this->result))
-//            {
-//                for($j = 0;$j < count($Field[$i]);$j++)
-//                {
-//                    $result_temp[$var][$j] = $ass_arr[$Field[$i][$j]];
-//                }
-//                $var++;
-//            }
-//            $var = 0;
-//            $result_arr[$i] = $result_temp;
-//            $result_temp=array();
-//        }
-//        return $result_arr;
-//    }
-//
-//    public function selectAll($result_arr)
-//    {
-//        $result_field = array();
-//        for($i = 0;$i < count($result_arr);$i++)
-//        {
-//            $sql = "show fields from ".$result_arr[$i].";";
-//            $this->result=mysqli_query($this->connObject,$sql);
-//            $this->row = mysqli_num_rows($this->result);
-//            while($ass_arr = mysqli_fetch_assoc($this->result))
-//            {
-//                $result_field[$i][] = $ass_arr["Field"];
-//            }
-//        }
-//        return $result_field;
-//    }
 }

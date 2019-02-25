@@ -19,22 +19,12 @@
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
     <link href="css/style-responsive.css" rel="stylesheet">
-    <!-- =======================================================
-      Template Name: Dashio
-      Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
-      Author: TemplateMag.com
-      License: https://templatemag.com/license/
-    ======================================================= -->
-
     <link href="css/mycss.css" rel="stylesheet">
 </head>
 
 <body>
 <section id="container">
-    <!-- **********************************************************************************************************************************************************
-        TOP BAR CONTENT & NOTIFICATIONS
-        *********************************************************************************************************************************************************** -->
-    <!--header start-->
+
     <header class="header black-bg">
         <div class="sidebar-toggle-box">
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
@@ -42,22 +32,6 @@
         <!--logo start-->
         <a href="index.html" class="logo"><b>Dante<span>Fun</span></b></a>
         <!--logo end-->
-        <div class="nav notify-row" id="top_menu">
-            <!--  notification start -->
-            <div class="btn-group">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        点此操作
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" id="InsertTB">添加表</a></li>
-                        <li><a href="#" id="ImportEX">导入Excel</a></li>
-                        <li><a href="#" id="AllDeleteTB">全部删除</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
                 <li>
@@ -66,14 +40,8 @@
             </ul>
         </div>
     </header>
-    <!--header end-->
-    <!-- **********************************************************************************************************************************************************
-        MAIN SIDEBAR MENU
-        *********************************************************************************************************************************************************** -->
-    <!--sidebar start-->
     <aside>
         <div id="sidebar" class="nav-collapse ">
-            <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
                 <p class="centered">
                     <a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a>
@@ -97,40 +65,41 @@
                     </ul>
                 </li>
             </ul>
-            <!-- sidebar menu end-->
         </div>
     </aside>
-    <!--sidebar end-->
     <!-- **********************************************************************************************************************************************************
         MAIN CONTENT
         *********************************************************************************************************************************************************** -->
-    <!--main content start-->
     <section id="main-content">
         <section id="MyPanel" class="wrapper">
-            <h3><i class="fa fa-angle-right"></i> 数据库</h3>
+            <h2><i class="fa fa-angle-right"></i> 数据库</h2>
+            <h3><i class="fa fa-angle-right"></i> 您可以下发的实验：</h3>
+            <select id="select_TSname" name="select_TSname">
+            </select>
+            <h3><i class="fa fa-angle-right"></i> 实验室选择：</h3>
+            <select id="select_TSRoom" name="select_TSroom">
+            </select>
+            <h3><i class="fa fa-angle-right"></i> 实验仪器选择：</h3>
             <div class="row mt">
                 <div class="col-md-12">
                     <div id="Database_Table" class="content-panel">
-                        <table id="test_info" class="table table-striped table-advance table-hover table-bordered">
-                            <i class="fa fa-angle-right">实验信息</i>
+                        <table id="device_info" class="table table-striped table-advance table-hover table-bordered">
+                            <i class="fa fa-angle-right">设备信息</i>
                             <thead>
                             <tr id="tr_head">
-                                <th>实验编号</th>
-                                <th>实验名称</th>
-                                <th>实验系别</th>
-                                <th>可选教室</th>
+                                <th>设备名称</th>
+                                <th>设备剩余个数</th>
+                                <th>分发个数</th>
+                                <th>submit</th>
                             </tr>
                             </thead>
-                            <tbody id="test_tbody">
+                            <tbody id="device_tbody">
 
                             </tbody>
                         </table>
                     </div>
-                    <!-- /content-panel -->
                 </div>
-                <!-- /col-md-12 -->
             </div>
-            <!-- /row -->
             <h3><i class="fa fa-angle-right"></i> 您已下发的实验</h3>
             <div class="row mt">
                 <div class="col-md-12">
@@ -142,7 +111,6 @@
                                 <th>实验名称</th>
                                 <th>实验教室</th>
                                 <th>下发老师</th>
-                                <th>实验系别</th>
                                 <th>submit</th>
                             </tr>
                             </thead>
@@ -151,32 +119,10 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /content-panel -->
                 </div>
-                <!-- /col-md-12 -->
             </div>
-            <!-- /row -->
         </section>
-        <div id="insert_TB" class="container">
-            <button type="button" class="btn btn-outline-light text-dark" id="AddTableElem">
-                添加字段
-            </button>
-            <button type="button" class="btn btn-outline-light text-dark" id="DeleteTableElem">
-                删除字段
-            </button>
-            <form id ="Insert_Form" action="PHP/DataBaseTest.php" method="post">
-                <div class="form-group" id="Insert_Table_Form">
-                    <label for="TB_name">表名：</label>
-                    <input type="text" class="form-control" placeholder="请输入英文字符" id="TB_name" name="Tablename">
-                </div>
-                <button class="btn btn-primary" name = "submit" value = "enter" onclick="return Form_Insert_Ajax()">确认</button>
-                <button class="btn btn-primary" name = "submit" value = "cancel" onclick="return Form_Insert_Ajax()">取消</button>
-            </form>
-        </div>
     </section>
-    <!-- /MAIN CONTENT -->
-    <!--main content end-->
-    <!--footer start-->
     <footer class="site-footer">
         <div class="text-center">
             <p>
@@ -209,172 +155,135 @@
 <!--script for this page-->
 <script>
     $(document).ready(function () {
-        var data_length,device_num = [],teacher_name,Major = '1',device_name = [];
+        var i = 0,j = 0,existed_length = 10;
+        var device_length = 0,teacher_name = '',temp_name = '',room_name = '',test_name = '';
         teacher_name = decodeURI(parent.document.URL).slice(decodeURI(parent.document.URL).indexOf('?')+1);
+
         $.post("PHP/MyDataBase.php",
         {
-            teacher_name:teacher_name,
             Operation:'GET_TEST',
         },
         function(data,status){
             var temp_data = JSON.parse(data);
-            Major = temp_data[0][2];
-            var temp_name,i,j;
-            data_length = temp_data[0].length;
-
-            for(i=0;i<temp_data.length;i++)
+            while(i < temp_data.length)
             {
-                $("#test_tbody").append('<tr id="test_tr'+i+'">');
-            }
-            for(i=0;i<temp_data.length;i++)
-            {
-                temp_name = "#test_tr"+i;
-                for(j=0;j<temp_data[i].length;j++)
-                {
-                    $(temp_name).append('<td value ="'+temp_data[i][j]+'" id="'+String(i)+'_test_'+String(j)+'">'+temp_data[i][j]+'</td>');
-                }
-                $(temp_name).append('<td><select id="select_'+i+'" name="select_Name"></select></td>');
+                $('#select_TSname').append('<option name = "TSoption_"'+String(i)+'>'+temp_data[i]+'</option>');
+                i++;
             }
         });
 
+        function get_testroom()
+        {
+            $.post("PHP/MyDataBase.php",
+            {
+                Operation:'GET_TESTROOM'
+            },
+            function(data,status){
+                var temp_data = JSON.parse(data);
+                var i;
+                $('#select_TSRoom').empty();
+                for(i=0;i < temp_data.length;i++)
+                {
+                    $('#select_TSRoom').append('<option name = "option_room"'+String(i)+'>'+temp_data[i]+'</option>');
+                }
+            });
+        }
 
+        get_testroom();
         $.post("PHP/MyDataBase.php",
         {
-            Operation:'GET_TESTROOM'
+            Operation:'TEACHER_DEPLOYED',
         },
         function(data,status){
             var temp_data = JSON.parse(data);
-            var temp_name,i,j;
-            for(i=0;i < data_length;i++)
+            i = 0;
+            while(i < temp_data.length)
             {
-                temp_name = "#select_"+i;
-                for(j=0;j<temp_data.length;j++)
-                {
-                    $(temp_name).append('<option name = "option_"'+String(i)+String(j)+' value ="'+temp_data[j]+'">'+temp_data[j]+'</option>');
-                }
+                $('#displayed_tbody').append('<tr id="displayed_tr_'+i+'">');
+                i++;
+            }
+            for(i = 0;i < temp_data.length;i++)
+            {
+                j = 0;
+                temp_name = '#displayed_tr_'+i;
+                $(temp_name).append('<td id="displayed_name'+i+'">'+ temp_data[i][j++] +'</td>');
+                $(temp_name).append('<td id="displayed_room'+i+'">'+ temp_data[i][j++] +'</td>');
+                $(temp_name).append('<td id="displayed_teacher'+i+'">'+ temp_data[i][j++] +'</td>');
+                $(temp_name).append('<td id="displayed_tdb'+i+'"><button class="btn btn-theme04" type="button" id="cancel_'+String(i)+'">取消下发</button></td>');
             }
         });
 
-
         $.post("PHP/MyDataBase.php",
         {
-            teacher_name:teacher_name,
             Operation:'GET_DEVICE',
         },
         function(data,status){
             var temp_data_arr = JSON.parse(data);
-            var i,j,temp_name;
+            var temp_name = '';
+
+            device_length = temp_data_arr.length;
             for(i=0;i<temp_data_arr.length;i++)
             {
-                device_num[i] = temp_data_arr[i][1];
-                device_name[i] = temp_data_arr[i][0];
-                temp_name = "#test_tr"+i;
-                $("#tr_head").append('<th id="thead_td'+i+'">'+temp_data_arr[i][0]+"(sum"+temp_data_arr[i][1]+')</th>');
+                $('#device_tbody').append('<tr id="device_tr'+i+'"></tr>');
             }
-            for(i=0;i < data_length;i++)
+            for(i=0;i<temp_data_arr.length;i++)
             {
-                temp_name = "#test_tr"+i;
-                for(j = 0;j < temp_data_arr.length;j++)
-                {
-                    $(temp_name).append('<td id='+String(i)+'_td_'+String(j)+'><input id='+String(i)+'_number_'+String(j)+' type="text" name='+String(i)+'_device_'+String(j)+' disabled="disabled" value="1"></td>');
-                }
-            }
-            for(i=0;i<data_length;i++)
-            {
-                for (j = 0; j < temp_data_arr.length; j++)
-                {
-                    temp_name = '#'+String(i)+'_td_'+String(j);
-                    $(temp_name).append('<button id='+String(i)+'_up_'+String(j)+' class="fa fa-sort-asc"></button>');
-                    $(temp_name).append('<button id='+String(i)+'_down_'+String(j)+' class="fa fa-sort-desc"></button>');
-                }
-            }
-            $("#tr_head").append('<th>submit</th>');
-            for(i=0;i<data_length;i++)
-            {
-                temp_name = "#test_tr"+i;
-                $(temp_name).append('<button class="btn btn-theme02" type="button" id="ent_'+String(i)+'">下发实验</button>');
+                temp_name = '#device_tr'+i;
+                $(temp_name).append('<td id="device_td'+i+'">'+temp_data_arr[i][0]+'</td>');
+                $(temp_name).append('<td id="device_1td'+i+'">'+temp_data_arr[i][1]+'</td>');
+
+                $(temp_name).append('<input type="text" disabled id="device_input'+i+'" value="1">');
+
+                $(temp_name).append('<button id=up_'+String(i)+' class="fa fa-sort-asc"></button>');
+                $(temp_name).append('<button id=down_'+String(i)+' class="fa fa-sort-desc"></button>');
+                $(temp_name).append('<td id="device_2td"><button class="btn btn-theme02" type="button" id="ent_'+String(i)+'">下发实验</button></td>');
             }
         });
 
-        // $.post("PHP/MyDataBase.php",
-        // {
-        //     Operation : 'TEACHER_DEPLOYED',
-        //     teacher_name : teacher_name,
-        // },
-        // function(data,status){
-        //     var i,temp_data,temp_name,j;
-        //     temp_data = JSON.parse(data);
-        //     alert(temp_data);
-        //     for(i = 0;i < temp_data.length;i++)
-        //     {
-        //         $("#displayed_tbody").append('<tr id="display_tr'+i+'">');
-        //     }
-        //     for(i = 0;i < temp_data.length;i++)
-        //     {
-        //         temp_name = '#display_tr'+i;
-        //         for(j = 0;j < temp_data[i].length;j++)
-        //         {
-        //             $(temp_name).append('<td id='+String(i)+'_displaytd_'+String(j)+'>'+temp_data[i][j]+'</td>>');
-        //         }
-        //         $(temp_name).append('<button id="delete_'+i+'" class="btn btn-theme04" type="button">取消下发</button>');
-        //     }
-        // });
 
-        $('#test_tbody').on('click', function(event) {
-            var temp_name,x,y,op,i,j,sum=[0,0],test_room = 0,button_id,room_name,test_name,cost_num = new Array(device_num.length).fill(0);
+        $('#device_tbody').on('click', function(event) {
+            var x,op,i,test_room = 0,device_num = new Array(device_length).fill(0),device_name = new Array(device_length).fill(0);
+            var remain_num = new Array(device_length).fill(0);
             temp_name = $(event.target).closest('button').attr("id");
             temp_name = temp_name.split('_');
-            if(temp_name.length==3)
+            op = temp_name[0];
+            x = temp_name[1];
+            if(op == 'up')
             {
-                x = temp_name[0];
-                op = temp_name[1];
-                y = temp_name[2];
-                temp_name = '#'+String(x)+'_number_'+String(y);
-
-                for(i=0;i<device_num.length;i++)
+                if(parseInt(document.getElementById('device_input'+String(x)).value) >= parseInt(document.getElementById('device_1td'+String(x)).innerText))
                 {
-                    for(j=0;j<data_length;j++)
-                    {
-                        sum[i] += parseInt(document.getElementById(String(j)+'_number_'+String(i)).value);
-                    }
-                }
-                if(op == 'up')
-                {
-                    console.log(device_num);
-                    if(sum[y] < device_num[y])
-                    {
-                        $(temp_name).attr("value",document.getElementById(String(x)+'_number_'+String(y)).value++);
-                    }
-                    else
-                    {
-                        alert("仪器库存为0");
-                    }
+                    alert("库存为0!");
                 }
                 else
                 {
-                    if(document.getElementById(String(x)+'_number_'+String(y)).value <= 0)
-                    {
-                        alert("不能向下选择");
-                    }
-                    else
-                    {
-                        $(temp_name).attr("value",document.getElementById(String(x)+'_number_'+String(y)).value--);
-                    }
+                    $('#device_input'+String(x)).attr("value",document.getElementById('device_input'+String(x)).value++);
+                }
+            }
+            else if(op == 'down')
+            {
+                if(document.getElementById('device_input'+String(x)).value == 0)
+                {
+                    alert("不能向下选择！");
+                }
+                else
+                {
+                    $('#device_input'+String(x)).attr("value",document.getElementById('device_input'+String(x)).value--);
                 }
             }
             else
             {
-                button_id = temp_name[1];
-                test_name = document.getElementById(button_id+"_test_1").innerText;
-                test_room = document.getElementById("select_"+button_id);
+                test_room = document.getElementById("select_TSRoom");
                 room_name = test_room.options[test_room.selectedIndex].text;
 
-                for(i = 0;i < device_num.length;i++)
-                {
-                    cost_num[i] += parseInt(document.getElementById(button_id+"_number_"+i).value);
-                    device_num[i] -= document.getElementById(button_id+"_number_"+i).value;
-                }
+                test_room = document.getElementById("select_TSname");
+                test_name = test_room.options[test_room.selectedIndex].text;
 
+                for(i = 0; i < device_length;i++)
+                {
+                    device_num[i] = parseInt(document.getElementById("device_input" + i).value);
+                    remain_num[i] = parseInt(document.getElementById('device_1td'+String(i)).innerText) - device_num[i];
+                    device_name[i] = document.getElementById("device_td" + i).innerText;
+                }
                 $.post("PHP/MyDataBase.php",
                 {
                     room_name : room_name,
@@ -382,37 +291,56 @@
                     teacher_name : teacher_name,
                     device_num : device_num,
                     device_name : device_name,
-                    Major : Major,
-                    cost_num : cost_num,
+                    remain_num :remain_num,
                     Operation : 'INSERT_DEPLOY'
                 },
                 function(data,status){
-                    var temp_data = JSON.parse(data);
-                    console.log(temp_data);
-                    // var temp_data = JSON.parse(data);
-                    // console.log(temp_data);
-                    //location.reload();
+                    if(data == 'deploy success')
+                    {
+                        i = 0;
+                        existed_length++;
+                        $('#displayed_tbody').append('<tr id="displayed_tr_'+existed_length+'"></tr>');
+                        temp_name = '#displayed_tr_'+ existed_length;
+                        $(temp_name).append('<td id="displayed_name'+existed_length+'">'+test_name+'</td>');
+                        $(temp_name).append('<td id="displayed_room'+existed_length+'">'+ room_name +'</td>');
+                        $(temp_name).append('<td id="displayed_teacher'+existed_length+'">'+ teacher_name +'</td>');
+                        $(temp_name).append('<td id="displayed_tdb'+existed_length+'"><button class="btn btn-theme04" type="button" id="cancel_'+String(existed_length)+'">取消下发</button></td>');
+                        get_testroom();
+                    }
+                    else
+                    {
+                        alert(data);
+                    }
                 });
             }
         });
+
         $('#displayed_tbody').on('click', function(event) {
             var temp_name,button_id,test_name,room_name;
             temp_name = $(event.target).closest('button').attr("id");
             temp_name = temp_name.split('_');
             button_id = temp_name[1];
 
-            test_name = document.getElementById(button_id+'_displaytd_0').innerText;
-            room_name = document.getElementById(button_id+'_displaytd_1').innerText;
+            test_name = document.getElementById('displayed_name'+button_id).innerText;
+            room_name = document.getElementById('displayed_room'+button_id).innerText;
 
-            $.post("PHP/DeleteDisplayed.php",
+            $.post("php/MyDataBase.php",
             {
                 test_name:test_name,
-                room_name:room_name
+                room_name:room_name,
+                Operation:'DELETE_DEPLOYED'
             },
             function(data,status){
-                //var temp_data = JSON.parse(data);
-                alert(data);
-                location.reload();
+                if(data == 'delete success')
+                {
+                    temp_name = '#displayed_tr_'+button_id;
+                    $(temp_name).remove();
+                    get_testroom();
+                }
+                else
+                {
+                    console.log(data);
+                }
             });
         });
     })

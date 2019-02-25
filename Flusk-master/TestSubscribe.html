@@ -200,7 +200,7 @@
         return ResultDate;
     }
     $(document).ready(function () {
-        var student_name,major;
+        var student_name,existed_length = 10;
         var Classes = new Array();
         Classes = ['上午一二节','上午三四节','上午第五节','下午一二节','下午三四节','晚上一二节','晚上第三节'];
         student_name = decodeURI(parent.document.URL).slice(decodeURI(parent.document.URL).indexOf('?')+1);
@@ -211,8 +211,6 @@
         },
         function(data,status){
             var temp_data = JSON.parse(data);
-            console.log(temp_data);
-            major = temp_data.pop();
             var Subscribe_Time = SubscribeTime();
             var i,j,temp_name;
             for(i=0;i<temp_data.length;i++)
@@ -248,6 +246,30 @@
                 }
             }
         });
+
+        $.post("php/MyDataBase.php",
+        {
+            student_name : student_name,
+            Operation:'GET_SUBSCRIBED',
+        },
+        function(data,status){
+            var temp_data = JSON.parse(data);
+            var i,j = 0,temp_name;
+            for(i=0;i<temp_data.length;i++)
+            {
+                $("#Ordered_tbody").append('<tr id="Ordered_tr_'+i+'">');
+            }
+            for(i=0;i<temp_data.length;i++)
+            {
+                j = 0;
+                temp_name = '#Ordered_tr_'+i;
+                $(temp_name).append('<td id="Ordered_name'+String(i)+'">'+temp_data[i][j++]+'</td>');
+                $(temp_name).append('<td id="Ordered_room'+String(i)+'">'+temp_data[i][j++]+'</td>');
+                $(temp_name).append('<td id="Ordered_date'+String(i)+'">'+temp_data[i][j++]+'</td>');
+                $(temp_name).append('<td id="Ordered_time'+String(i)+'">'+temp_data[i][j++]+'</td>');
+                $(temp_name).append('<button class="btn btn-theme04" type="button" id="cancel_'+String(i)+'">取消预约</button>');
+            }
+        });
         $('#Order_tbody').on('click', function(event) {
             var temp_name,button_id,test_name,room_name,subscribe_date,subscribe_time,select_temp;
             temp_name = $(event.target).closest('button').attr("id");
@@ -270,62 +292,59 @@
                 subscribe_date:subscribe_date,
                 subscribe_time:subscribe_time,
                 student_name:student_name,
-                major:major,
                 Operation:'INSERT_SUBSCRIBE'
             },
             function(data,status){
-                alert(data);
-                location.reload();
-                // var temp_data = JSON.parse(data);
-                // console.log(temp_data);
-                // console.log(data);
+                if(data == 'subscribe success')
+                {
+                    existed_length++;
+                    $('#Ordered_tbody').append('<tr id="Ordered_tr_'+existed_length+'"></tr>');
+                    temp_name = '#Ordered_tr_'+ existed_length;
+                    $(temp_name).append('<td id="Ordered_name'+existed_length+'">'+test_name+'</td>');
+                    $(temp_name).append('<td id="Ordered_room'+existed_length+'">'+ room_name +'</td>');
+                    $(temp_name).append('<td id="Ordered_date'+existed_length+'">'+ subscribe_date +'</td>');
+                    $(temp_name).append('<td id="Ordered_time'+existed_length+'">'+ subscribe_time +'</td>');
+                    $(temp_name).append('<td id="cancel_'+existed_length+'"><button class="btn btn-theme04" type="button" id="cancel_'+String(existed_length)+'">取消预约</button></td>');
+                }
+                else
+                {
+                    alert(data);
+                }
             });
         });
-        // $.post("PHP/YoursTest.php",
-        // {
-        //     student_name:student_name,
-        // },
-        // function(data,status){
-        //     var temp_data = JSON.parse(data);
-        //     var i,j,temp_name;
-        //     console.log(temp_data)
-        //     for(i=0;i<temp_data.length;i++)
-        //     {
-        //         $("#Ordered_tbody").append('<tr id="Ordered_tr_'+i+'">');
-        //     }
-        //     for(i=0;i<temp_data.length;i++)
-        //     {
-        //         temp_name = '#Ordered_tr_'+i;
-        //         for(j=0;j<temp_data[i].length;j++)
-        //         {
-        //             $(temp_name).append('<td id="'+String(i)+'Ordered_td_'+String(j)+'">'+temp_data[i][j]+'</td>');
-        //         }
-        //         $(temp_name).append('<button class="btn btn-theme04" type="button" id="Oded_'+String(i)+'">取消预约</button>');
-        //     }
-        // });
-        //
-        // $('#Ordered_tbody').on('click', function(event) {
-        //     var temp_name,button_id,test_name,subscribe_date,subscribe_time;
-        //     temp_name = $(event.target).closest('button').attr("id");
-        //     temp_name = temp_name.split('_');
-        //     button_id = temp_name[1];
-        //
-        //     test_name = document.getElementById(button_id+'Ordered_td_0').innerText;
-        //     subscribe_date = document.getElementById(button_id+'Ordered_td_2').innerText;
-        //     subscribe_time = document.getElementById(button_id+'Ordered_td_3').innerText;
-        //
-        //     $.post("PHP/cancelTest.php",
-        //     {
-        //         test_name:test_name,
-        //         subscribe_date:subscribe_date,
-        //         subscribe_time:subscribe_time,
-        //     },
-        //     function(data,status){
-        //         //var temp_data = JSON.parse(data);
-        //         alert(data);
-        //         location.reload();
-        //     });
-        // });
+
+        $('#Ordered_tbody').on('click', function(event) {
+            var temp_name,button_id,test_name,room_name,subscribe_date,subscribe_time;
+            temp_name = $(event.target).closest('button').attr("id");
+            temp_name = temp_name.split('_');
+            button_id = temp_name[1];
+
+            test_name = document.getElementById('Ordered_name'+button_id).innerText;
+            room_name = document.getElementById('Ordered_room'+button_id).innerText;
+            subscribe_date = document.getElementById('Ordered_date'+button_id).innerText;
+            subscribe_time = document.getElementById('Ordered_time'+button_id).innerText;
+
+            $.post("PHP/MyDataBase.php",
+            {
+                test_name:test_name,
+                room_name:room_name,
+                subscribe_date:subscribe_date,
+                subscribe_time:subscribe_time,
+                Operation:'DELETE_SUBSCRIBED'
+            },
+            function(data,status){
+                console.log(data);
+                if(data == 'delete success')
+                {
+                    temp_name = '#Ordered_tr_'+ button_id;
+                    $(temp_name).empty();
+                }
+                else
+                {
+                    alert(data);
+                }
+            });
+        });
     });
 </script>
 </body>
