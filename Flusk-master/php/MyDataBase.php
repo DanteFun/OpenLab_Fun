@@ -23,7 +23,7 @@ switch ($Operation)
         $Device_Name = $_POST['device_name'];
         $Device_Num = $_POST['device_num'];
         $Remain_num = $_POST['remain_num'];
-        $Field_Name = ['实验名称','实验室地址','教师名称','仪器名称','仪器个数'];
+        $Field_Name = ['实验名称','实验室地址','教师名称','名称','仪器个数'];
         while($i < count($Device_Name))
         {
             $Field_Value = [$_POST['test_name'],$_POST['room_name'],$_POST['teacher_name'],$Device_Name[$i],$Device_Num[$i]];
@@ -37,7 +37,7 @@ switch ($Operation)
             $Condition_Value = [$_POST['room_name']];
             if($DBManage->update('实验室','使用中',$Field_Value,'实验室地址',$Condition_Value))
             {
-                if($DBManage->update('实验仪器','仪器个数',$Remain_num,'仪器名称',$Device_Name))
+                if($DBManage->update('实验仪器','仪器个数',$Remain_num,'名称',$Device_Name))
                 {
                     $Field_Name = ['日期','内容'];
                     $Field_Value = [date("Y-m-d-H-i-s"),$_POST['teacher_name'].'老师发布了'.$_POST['test_name'].'实验,同学们快来预约啦~~'];
@@ -100,7 +100,7 @@ switch ($Operation)
         $i = 0;
         $Condition_Name = [];
         $Condition_Value = [];
-        $Field_Name = ['仪器名称','仪器个数'];
+        $Field_Name = ['名称','仪器个数'];
         $Result_1 = $DBManage->ItemsInTable($Field_Name,'实验仪器',$Condition_Name,$Condition_Value,0);
 
         $Condition_Name = ['实验名称','实验室地址'];
@@ -113,7 +113,7 @@ switch ($Operation)
             $Condition_Value[$i] = $Result_1[$i][0];
             $i++;
         }
-        if($DBManage->update('实验仪器','仪器个数',$Field_Name,'仪器名称',$Condition_Value))
+        if($DBManage->update('实验仪器','仪器个数',$Field_Name,'名称',$Condition_Value))
         {
             $Condition_Value = [$_POST['test_name'],$_POST['room_name']];
             if($DBManage_1->Delete('下发实验',$Condition_Name,$Condition_Value))
@@ -122,7 +122,16 @@ switch ($Operation)
                 $Condition_Value = [$_POST['room_name']];
                 if($DBManage_1->update('实验室','使用中',$Field_Value,'实验室地址',$Condition_Value))
                 {
-                    echo 'delete success';
+                    $Field_Name = ['日期','内容'];
+                    $Field_Value = [date("Y-m-d-H-i-s"),$_POST['teacher_name'].'老师取消了'.$_POST['test_name'].'实验,同学们请注意~~'];
+                    if($DBManage_1->insert('通知通告',$Field_Name,$Field_Value))
+                    {
+                        echo 'delete success';
+                    }
+                    else
+                    {
+                        echo $DBManage->resultRecord;
+                    }
                 }
                 else
                 {
@@ -154,6 +163,19 @@ switch ($Operation)
         }
         break;
 
+    case 'DELETE':
+        $Condition_Name = [$_POST['Field_Name']];
+        $Condition_Value = [$_POST['Field_Value']];
+        if($DBManage->Delete($_POST['table_name'],$Condition_Name,$Condition_Value))
+        {
+            echo 'delete success';
+        }
+        else
+        {
+            echo '删除'.$_POST['table_name'].'失败';
+        }
+        break;
+
     case 'GET_TEST':
         $item = ['实验名称'];
         $Condition_Name = [];
@@ -163,7 +185,7 @@ switch ($Operation)
         break;
 
     case 'GET_DEVICE':
-        $item = ['仪器名称','仪器个数'];
+        $item = ['名称','仪器个数'];
         $Condition_Name = [];
         $Condition_Value = [];
         $Result = $DBManage->ItemsInTable($item,'实验仪器',$Condition_Name,$Condition_Value,0);
@@ -239,6 +261,10 @@ switch ($Operation)
 
     case 'LOGIN':
         session_start();
+        if($_POST['name'] == ''||$_POST['password'] == ''||$_POST['captcha'] == '')
+        {
+            echo '请输入完整的登录信息!';
+        }
         if($_POST['captcha'] != $_SESSION['phrase'])
         {
             echo '验证码错误！';
@@ -285,6 +311,92 @@ switch ($Operation)
             echo '技术动态下发失败！';
         }
         break;
+    case 'GET_TITLE':
+        $Field_Value = ['名称'];
+        $Condition_Name = [];
+        $Condition_Value = [];
+        $Result = $DBManage->ItemsInTable($Field_Value,$_POST['table_name'],$Condition_Name,$Condition_Value,0);
+        echo json_encode($Result);
+
+    case 'GET_CONTENT':
+        $Field_Value = ['内容'];
+        $Condition_Name = ['名称'];
+        $Condition_Value = [$_POST['content_title']];
+        $Result = $DBManage->ItemsInTable($Field_Value,$_POST['table_name'],$Condition_Name,$Condition_Value,0);
+        echo json_encode($Result);
+
+    case 'GET_TEACHERINFO':
+        $item = ['姓名','教师信息'];
+        $Condition_Name = [];
+        $Condition_Value = [];
+        $Result = $DBManage->ItemsInTable($item,'老师',$Condition_Name,$Condition_Value,0);
+        echo json_encode($Result);
+        break;
+
+    case 'GET_ATTENTEST':
+        $time =  get_currentClass();
+        $item = ['实验名称','实验日期','实验课时','预约者'];
+        $Condition_Name = ['实验日期','实验课时','预约者'];
+        $Condition_Value = [date('Y-n-j'),$time,$_POST['student_name']];
+        $Result = $DBManage->ItemsInTable($item,'已预约实验',$Condition_Name,$Condition_Value,0);
+        if($Result == 1)
+        {
+            echo 'not now';
+        }
+        else
+        {
+            echo json_encode($Result);
+        }
+        break;
+
+    case 'INSERT_ATTENDENCE':
+        $Condition_Name = ['实验名称','实验日期','实验课时','预约者'];
+        $Condition_Value = [$_POST['test_name'],$_POST['subscribe_date'],$_POST['subscribe_time'],$_POST['student_name']];
+        if($DBManage->insert('考勤表',$Condition_Name,$Condition_Value))
+        {
+            echo 'insert success';
+        }
+        else
+        {
+            echo $DBManage->resultRecord;
+        }
+        break;
     default:
         break;
+}
+function get_currentClass()
+{
+    $current_time = date('H:i');
+    if((strtotime($current_time) >= strtotime('08:00'))&&(strtotime($current_time) <= strtotime('9:35')))
+    {
+        return '上午一二节';
+    }
+    elseif ((strtotime($current_time) >= strtotime('9:50'))&&(strtotime($current_time) <= strtotime('11:25')))
+    {
+        return '上午三四节';
+    }
+    elseif ((strtotime($current_time) >= strtotime('11:30'))&&(strtotime($current_time) <= strtotime('12:15')))
+    {
+        return '上午第五节';
+    }
+    elseif ((strtotime($current_time) >= strtotime('13:30'))&&(strtotime($current_time) <= strtotime('15:05')))
+    {
+        return '下午一二节';
+    }
+    elseif ((strtotime($current_time) >= strtotime('15:20'))&&(strtotime($current_time) <= strtotime('16:55')))
+    {
+        return '下午三四节';
+    }
+    elseif ((strtotime($current_time) >= strtotime('18:30'))&&(strtotime($current_time) <= strtotime('20:05')))
+    {
+        return '晚上一二节';
+    }
+    elseif ((strtotime($current_time) >= strtotime('20:10'))&&(strtotime($current_time) <= strtotime('20:55')))
+    {
+        return '晚上三四节';
+    }
+    else
+    {
+        return -1;
+    }
 }

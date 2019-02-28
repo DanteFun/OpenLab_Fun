@@ -192,6 +192,7 @@
         get_testroom();
         $.post("PHP/MyDataBase.php",
         {
+            teacher_name:teacher_name,
             Operation:'TEACHER_DEPLOYED',
         },
         function(data,status){
@@ -328,6 +329,7 @@
             {
                 test_name:test_name,
                 room_name:room_name,
+                teacher_name:teacher_name,
                 Operation:'DELETE_DEPLOYED'
             },
             function(data,status){

@@ -67,8 +67,8 @@
                         <span>你的主页</span>
                     </a>
                     <ul class="sub">
-                        <li class="active">
-                            <a href="#">实验预约</a>
+                        <li>
+                            <a href="TestSubscribe.html">实验预约</a>
                         </li>
                         <li>
                             <a href="TechnologyShare.html">发布技术动态</a>
@@ -89,57 +89,6 @@
             <h3><i class="fa fa-angle-right"></i> 实验预约</h3>
             <div class="row mt">
                 <div class="col-md-12">
-                    <div id="Order_Test" class="content-panel">
-                        <table id="Order_Table" class="table table-striped table-advance table-hover table-bordered">
-                            <i class="fa fa-angle-right">可预约实验</i>
-                            <thead>
-                            <tr id="Order_head">
-                                <th>实验名称</th>
-                                <th>实验教室</th>
-                                <th>下发老师</th>
-                                <th>预约日期</th>
-                                <th>预约课时</th>
-                                <th>submit</th>
-                            </tr>
-                            </thead>
-                            <tbody id="Order_tbody">
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /content-panel -->
-                </div>
-                <!-- /col-md-12 -->
-            </div>
-            <!-- /row -->
-            <h3><i class="fa fa-angle-right"></i> 您已预约的实验</h3>
-            <div class="row mt">
-                <div class="col-md-12">
-                    <div id="Ordered_Test" class="content-panel">
-                        <table id="Ordered_Table" class="table table-striped table-advance table-hover table-bordered">
-                            <i class="fa fa-angle-right">实验信息</i>
-                            <thead>
-                            <tr id="Ordered_head">
-                                <th>实验名称</th>
-                                <th>实验教室</th>
-                                <th>预约日期</th>
-                                <th>预约课时</th>
-                                <th>submit</th>
-                            </tr>
-                            </thead>
-                            <tbody id="Ordered_tbody">
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /content-panel -->
-                </div>
-                <!-- /col-md-12 -->
-            </div>
-
-            <h3><i class="fa fa-angle-right"></i> 您可考勤的实验</h3>
-            <div class="row mt">
-                <div class="col-md-12">
                     <div id="Attendence_Test" class="content-panel">
                         <table id="Attendence_Table" class="table table-striped table-advance table-hover table-bordered">
                             <i class="fa fa-angle-right">可考勤实验</i>
@@ -157,7 +106,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <!-- /content-panel -->
                 </div>
+                <!-- /col-md-12 -->
             </div>
         </section>
     </section>
@@ -194,33 +145,6 @@
 <!--common script for all pages-->
 <script src="lib/common-scripts.js"></script>
 <script>
-    function SubscribeTime(){
-        var i = 0;
-        var Day,Month;
-        var ResultDate = new Array();
-        var date = new Date();
-        var LocalYear = date.getFullYear();
-        var LocalMonth = date.getMonth()+1;
-        var LocalDate = date.getDate();
-
-        var TempDay = new Date(LocalYear,LocalMonth,0);
-        var LocalMaxDate = TempDay.getDate();
-        while(i<30)
-        {
-            Day = LocalDate + i;
-            Month = LocalMonth + 1;
-            if(Day <= LocalMaxDate)
-            {
-                ResultDate[i] = ''+LocalYear+'-'+LocalMonth+'-'+Day;
-            }
-            else
-            {
-                ResultDate[i] = ''+LocalYear+'-'+Month+'-'+(Day%LocalMaxDate);
-            }
-            i++;
-        }
-        return ResultDate;
-    }
     $(document).ready(function () {
         var student_name,existed_length = 10;
         var Classes = new Array();
@@ -292,36 +216,6 @@
                 $(temp_name).append('<button class="btn btn-theme04" type="button" id="cancel_'+String(i)+'">取消预约</button>');
             }
         });
-        $.post("php/MyDataBase.php",
-        {
-            student_name : student_name,
-            Operation:'GET_ATTENTEST',
-        },
-        function(data,status){
-            if(data != 'not now')
-            {
-                var temp_data = JSON.parse(data);
-                var i,j = 0,temp_name;
-                for(i=0;i<temp_data.length;i++)
-                {
-                    $("#Attendence_tbody").append('<tr id="Attendence_tr_'+i+'">');
-                }
-                for(i=0;i<temp_data.length;i++)
-                {
-                    j = 0;
-                    temp_name = '#Attendence_tr_'+i;
-                    $(temp_name).append('<td id="Attendence_name'+String(i)+'">'+temp_data[i][j++]+'</td>');
-                    $(temp_name).append('<td id="Attendence_date'+String(i)+'">'+temp_data[i][j++]+'</td>');
-                    $(temp_name).append('<td id="Attendence_time'+String(i)+'">'+temp_data[i][j++]+'</td>');
-                    $(temp_name).append('<td id="Attendence_people'+String(i)+'">'+temp_data[i][j++]+'</td>');
-                    $(temp_name).append('<button class="btn btn-theme02" type="button" id="cancel_'+String(i)+'">点击考勤</button>');
-                }
-            }
-            else
-            {
-                console.log('没有预约实验');
-            }
-        });
         $('#Order_tbody').on('click', function(event) {
             var temp_name,button_id,test_name,room_name,subscribe_date,subscribe_time,select_temp;
             temp_name = $(event.target).closest('button').attr("id");
@@ -385,18 +279,10 @@
                 Operation:'DELETE_SUBSCRIBED'
             },
             function(data,status){
-                console.log(data);
-                if(data == 'delete success')
-                {
-                    temp_name = '#Ordered_tr_'+ button_id;
-                    $(temp_name).empty();
-                }
-                else
-                {
-                    alert(data);
-                }
+                alert(data);
             });
         });
+
         $('#Attendence_tbody').on('click', function(event) {
             var temp_name,button_id,test_name,room_name,subscribe_date,subscribe_time;
             temp_name = $(event.target).closest('button').attr("id");
@@ -412,13 +298,12 @@
                 test_name:test_name,
                 subscribe_date:subscribe_date,
                 subscribe_time:subscribe_time,
-                student_name:student_name,
                 Operation:'INSERT_ATTENDENCE'
             },
             function(data,status){
                 if(data == 'insert success')
                 {
-                    alert('考勤成功');
+
                 }
                 else
                 {

@@ -232,74 +232,38 @@
 						<p>Powerful Teacher help you accomplish your study.</p>
 					</header>
 					<section class="block-body">
-						<div class="row">
-							<div class="col-md-4">
-								<div class="testimonial">
-									<img src="assets/images/tutor_dante.png">
-									<p></p>
-									<strong>但丁</strong><br/>
-									<span>The Doctor of Computer Science</span>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="testimonial">
-									<img src="assets/images/tutor_niro.png">
-									<p></p>
-									<strong>尼禄</strong><br/>
-									<span>The Doctor of Software Engineering</span>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="testimonial">
-									<img src="assets/images/tutor_vergil.png">
-									<p></p>
-									<strong>维吉尔</strong><br/>
-									<span>The Doctor of Network Engineering</span>
-								</div>
-							</div>
+						<div class="row" id="teacher_power">
+
 						</div>
 					</section>
 				</div>
 			</div><!-- /#testimonials -->
 
 
-			<div class="content-block" id="contact">
+			<div class="content-block parallax" id="rule_id">
 				<div class="container text-center">
-					<header class="block-heading cleafix">
-						<h1>Contact Us</h1>
-						<p>Feel free to drop us a line.</p>
-					</header>
-					<section class="block-body">
-						<div class="row">
-							<div class="col-md-6 col-md-offset-3">
-								<form class="" role="form">
-									<div class="form-group">
-								    	<input type="email" class="form-control form-control-white" id="subject" placeholder="Your Name" required>
-								  	</div>
-								    <div class="form-group">
-								    	<input type="email" class="form-control form-control-white" id="exampleInputEmail2" placeholder="Enter email" required>
-								    </div>
-								    <div class="form-group">
-								    	<textarea class="form-control form-control-white" placeholder="Write Something" required></textarea>
-								    </div>
-								  <input type="submit" class="btn btn-o-white" value="Say Hello">
-								</form>
-							</div>
-						</div>
-					</section>
+				<header class="block-heading cleafix">
+					<h1>管理制度</h1>
+				</header>
+				<section class="block-body">
+					<h3>进入实验室请穿鞋套，请勿将食品带入实验室内。</h3><br>
+					<h3>请勿大声喧闹，离开时仪器复位，门窗关好。</h3><br>
+					<h3>做实验时注意安全，离开时关灯断电。</h3><br>
+					<h3>及时查看通知通告，进行实验预约。</h3><br>
+					<h3>在自己预约的时间内，进行该实验的签到。</h3><br>
+				</section>
 				</div>
 			</div><!-- #contact -->
 
 			<div class="content-block" id="footer">
 				<div class="container">
 					<div class="row">
-						<div class="col-xs-6">&copy; Copyright Flusk 2014</div>
-						<div class="col-xs-6 text-right">Theme by <a href="https://themewagon.com/" target="_blank">ThemeWagon</a></div>
+						<div class="col-md-4"><h3><a href="http://www.bistu.edu.cn" target="_blank">北京信息科技大学官网</a></h3></div>
+						<div class="col-md-4"><h3><a href="http://jwc.bistu.edu.cn/index.html" target="_blank">北京信息科技大学教务处</a></h3></div>
+						<div class="col-md-4"><h3><a href="http://222.249.130.205/aexp/" target="_blank">北京信息科技大学毕设管理系统</a></h3></div>
 					</div>
 				</div>
 			</div><!-- #footer -->
-
-
 		</div><!--/#wrapper-->
 
 
@@ -313,7 +277,7 @@
 		<script>
 			var i = 0;
 			$(document).ready(function(){
-				var i = 0,j = 0,str,count = 0;
+				var i = 0,j = 0,str,count = 0,temp_name = '';
 				$.post("php/MyDataBase.php",
 				{
 					Operation : 'INFO_SHARE'
@@ -339,11 +303,11 @@
 				});
 				$.post("php/MyDataBase.php",
 				{
-					Operation : 'TEC_SHARE'
+					Operation : 'GET_TITLE'
 				},
 				function(data,status){
 					var temp_data = JSON.parse(data),class_name = '';
-					console.log(temp_data);
+					console.log(data);
 					count = 0;
 					for(i = temp_data.length - 1;i >= 0;i--)
 					{
@@ -358,6 +322,29 @@
 						{
 							break;
 						}
+					}
+				});
+				$.post("php/MyDataBase.php",
+				{
+					Operation : 'GET_TEACHERINFO'
+				},
+				function(data,status){
+					var temp_data = JSON.parse(data);
+					for(i = 0;i < temp_data.length;i++)
+					{
+						$("#teacher_power").append('<div id="teacher_'+ i +'" class="col-md-4">');
+					}
+					for(i = 0;i < temp_data.length;i++)
+					{
+						temp_name = '#teacher_' + i;
+						$(temp_name).append('<div id="testimonial_'+ i +'" class="testimonial">');
+					}
+					for(i = 0;i < temp_data.length;i++)
+					{
+						temp_name = '#testimonial_' + i;
+						$(temp_name).append('<img src="assets/images/'+ temp_data[i][0] +'.png"><br/>');
+						$(temp_name).append('<strong>'+ temp_data[i][0] +'</strong><br/>');
+						$(temp_name).append('<span>'+ temp_data[i][1] +'</span>');
 					}
 				});
 			})
