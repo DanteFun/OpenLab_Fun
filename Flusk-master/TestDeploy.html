@@ -30,7 +30,7 @@
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
         </div>
         <!--logo start-->
-        <a href="index.html" class="logo"><b>Dante<span>Fun</span></b></a>
+        <a href="index.html" class="logo"><b>开放<span>实验室</span></b></a>
         <!--logo end-->
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
@@ -44,9 +44,9 @@
         <div id="sidebar" class="nav-collapse ">
             <ul class="sidebar-menu" id="nav-accordion">
                 <p class="centered">
-                    <a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a>
+                    <a href="profile.html"><img src="img/ui-zyf.jpg" class="img-circle" width="80"></a>
                 </p>
-                <h5 class="centered">Sam Soffes</h5>
+                <h5 class="centered">老师</h5>
                 <li class="sub-menu">
                     <a class="active" href="javascript:;">
                         <i class="fa fa-th"></i>
@@ -112,6 +112,7 @@
                                 <th>实验教室</th>
                                 <th>下发老师</th>
                                 <th>submit</th>
+                                <th>查看考勤</th>
                             </tr>
                             </thead>
                             <tbody id="displayed_tbody">
@@ -211,6 +212,7 @@
                 $(temp_name).append('<td id="displayed_room'+i+'">'+ temp_data[i][j++] +'</td>');
                 $(temp_name).append('<td id="displayed_teacher'+i+'">'+ temp_data[i][j++] +'</td>');
                 $(temp_name).append('<td id="displayed_tdb'+i+'"><button class="btn btn-theme04" type="button" id="cancel_'+String(i)+'">取消下发</button></td>');
+                $(temp_name).append('<td id="displayed_tdb'+i+'"><button class="btn btn-theme04" type="button" id="atte_'+String(i)+'">考勤情况</button></td>');
             }
         });
 
@@ -325,25 +327,33 @@
             test_name = document.getElementById('displayed_name'+button_id).innerText;
             room_name = document.getElementById('displayed_room'+button_id).innerText;
 
-            $.post("php/MyDataBase.php",
+            if(temp_name[0] == 'cancel')
             {
-                test_name:test_name,
-                room_name:room_name,
-                teacher_name:teacher_name,
-                Operation:'DELETE_DEPLOYED'
-            },
-            function(data,status){
-                if(data == 'delete success')
+                $.post("php/MyDataBase.php",
                 {
-                    temp_name = '#displayed_tr_'+button_id;
-                    $(temp_name).remove();
-                    get_testroom();
-                }
-                else
-                {
-                    console.log(data);
-                }
-            });
+                    test_name:test_name,
+                    room_name:room_name,
+                    teacher_name:teacher_name,
+                    Operation:'DELETE_DEPLOYED'
+                },
+                function(data,status){
+                    if(data == 'delete success')
+                    {
+                        temp_name = '#displayed_tr_'+button_id;
+                        $(temp_name).remove();
+                        get_testroom();
+                    }
+                    else
+                    {
+                        console.log(data);
+                    }
+                });
+            }
+            else
+            {
+                var toUrl = encodeURI('AttenDetail.html?'+ test_name);
+                window.open(toUrl,'_blank','width=600,height=400,top=300px,left=500px');
+            }
         });
     })
 </script>

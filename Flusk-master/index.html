@@ -90,7 +90,7 @@
 				<div class="header-wrapper-inner">
 					<section class="top clearfix">
 						<div class="pull-left">
-							<h1><a class="logo" href="login.html">OpenLab</a></h1>
+							<h1><a class="logo" href="login.html">Login</a></h1>
 						</div>
 						<div class="pull-right">
 							<a class="toggleDrawer" href="#"><i class="fa fa-bars fa-2x"></i></a>
@@ -116,57 +116,16 @@
 			<div class="content-block" id="portfolio">
 				<div class="container">
 					<header class="block-heading cleafix">
-						<a href="#" class="btn btn-o btn-lg pull-right">预览全部</a>
 						<h1>实验预览</h1>
 						<p>所有的实验在此预览</p>
 					</header>
-					<section>
-						<div id="demo" class="carousel slide" data-ride="carousel">
+					<section class="block-body">
+						<div class="row">
+							<div id="Tec_TEST" class="container text-center col-lg-8">
 
-							<!-- 指示符 -->
-							<ul class="carousel-indicators">
-								<li data-target="#demo" data-slide-to="0" class="active"></li>
-								<li data-target="#demo" data-slide-to="1"></li>
-								<li data-target="#demo" data-slide-to="2"></li>
-							</ul>
-
-							<!-- 轮播图片 -->
-							<div class="carousel-inner">
-								<div class="carousel-item active">
-									<img src="https://static.runoob.com/images/mix/img_fjords_wide.jpg">
-									<div class="carousel-caption">
-										<h3>第一张图片描述标题</h3>
-										<p>描述文字!</p>
-									</div>
-								</div>
-								<div class="carousel-item">
-									<img src="https://static.runoob.com/images/mix/img_nature_wide.jpg">
-									<div class="carousel-caption">
-										<h3>第二张图片描述标题</h3>
-										<p>描述文字!</p>
-									</div>
-								</div>
-								<div class="carousel-item">
-									<img src="https://static.runoob.com/images/mix/img_mountains_wide.jpg">
-									<div class="carousel-caption">
-										<h3>第三张图片描述标题</h3>
-										<p>描述文字!</p>
-									</div>
-								</div>
 							</div>
-
-							<!-- 左右切换按钮 -->
-							<a class="carousel-control-prev" href="#demo" data-slide="prev">
-								<span class="carousel-control-prev-icon"></span>
-							</a>
-							<a class="carousel-control-next" href="#demo" data-slide="next">
-								<span class="carousel-control-next-icon"></span>
-							</a>
-
 						</div>
 					</section>
-
-
 				</div>
 			</div><!-- #portfolio -->
 
@@ -179,9 +138,6 @@
 
 			<div class="content-block" id="blog">
 				<div class="container">
-					<header class="block-heading cleafix">
-						<a href="#" class="btn btn-o btn-lg pull-right">View All</a>
-					</header>
 					<div id="Tec_share" class="container text-center col-lg-8">
 						<h1>技术动态</h1>
 
@@ -193,31 +149,12 @@
 			<div class="content-block parallax" id="services">
 				<div class="container text-center">
 					<header class="block-heading cleafix">
-						<h1>Our Services</h1>
-						<p>A little about what we do</p>
+						<h1>实验设备</h1>
 					</header>
 					<section class="block-body">
 						<div class="row">
-							<div class="col-md-4">
-								<div class="service">
-									<i class="fa fa-send-o"></i>
-									<h2>Illustration</h2>
-									<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="service">
-									<i class="fa fa-heart-o"></i>
-									<h2>3D Modeling</h2>
-									<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="service">
-									<i class="fa fa-camera-retro"></i>
-									<h2>Photography</h2>
-									<p>In at accumsan risus. Nam id volutpat ante. Etiam vel mi mattis, vulputate nunc nec, sodales nibh. Etiam nulla magna, gravida eget ultricies sit amet, hendrerit in lorem.</p>
-								</div>
+							<div id="Tec_Device" class="container text-center col-lg-8">
+
 							</div>
 						</div>
 					</section>
@@ -275,17 +212,30 @@
 		<script src="assets/js/script.js"></script>
 
 		<script>
-			var i = 0;
+			function NextPage(str)
+			{
+				var toUrl = encodeURI("TechnologyDetail.html?" + str);
+				window.open(toUrl,'_blank','width=600,height=400,top=300px,left=500px');
+			}
+			function NextPage_2(str)
+			{
+				var toUrl = encodeURI("DeviceDetail.html?" + str);
+				window.open(toUrl,'_blank','width=600,height=400,top=300px,left=500px');
+			}
+			function NextPage_3(str)
+			{
+				var toUrl = encodeURI("TestDetail.html?" + str);
+				window.open(toUrl,'_blank','width=600,height=400,top=300px,left=500px');
+			}
 			$(document).ready(function(){
 				var i = 0,j = 0,str,count = 0,temp_name = '';
+				var temp_data = '';
 				$.post("php/MyDataBase.php",
 				{
 					Operation : 'INFO_SHARE'
 				},
 				function(data,status){
 					var temp_data = JSON.parse(data);
-					console.log(temp_data);
-
 					count = 0;
 					for(i = temp_data.length - 1;i >= 0;i--)
 					{
@@ -303,25 +253,53 @@
 				});
 				$.post("php/MyDataBase.php",
 				{
-					Operation : 'GET_TITLE'
+					table_name: '技术动态',
+					Operation : 'GET_TECTITLE'
 				},
 				function(data,status){
-					var temp_data = JSON.parse(data),class_name = '';
-					console.log(data);
+					temp_data = JSON.parse(data);
+					var class_name = '';
 					count = 0;
 					for(i = temp_data.length - 1;i >= 0;i--)
 					{
 						for(j = 0;j < temp_data[i].length-1;j++)
 						{
 							class_name = temp_data[i][j+1];
-							str = temp_data[i][j] + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id='+i+' href="#" onclick="NextPage('+i+')">' +temp_data[i][j+1] +'</a>';
+							str = temp_data[i][j] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="+i+" href='#' onclick='NextPage(\""+ class_name +"\")'>" +temp_data[i][j+1] +"</a><br>";
 						}
-						$("#Tec_share").append('<h3>'+str+'</h3>');
+						$("#Tec_share").append('<h3>'+str+'</h3><br>');
 						count++;
 						if(count == 5)
 						{
 							break;
 						}
+					}
+				});
+
+				$.post("php/MyDataBase.php",
+				{
+					table_name: '实验仪器',
+					Operation : 'GET_TITLE'
+				},
+				function(data,status){
+					temp_data = JSON.parse(data);
+					console.log(temp_data);
+					for(i = temp_data.length - 1;i >= 0;i--)
+					{
+						$("#Tec_Device").append("<h3><a id="+i+" href='#' onclick='NextPage_2(\""+ temp_data[i] +"\")'>" +temp_data[i] +"</a><h3><br>");
+					}
+				});
+				$.post("php/MyDataBase.php",
+				{
+					table_name: '实验',
+					Operation : 'GET_TITLE'
+				},
+				function(data,status){
+					temp_data = JSON.parse(data);
+					console.log(temp_data);
+					for(i = temp_data.length - 1;i >= 0;i--)
+					{
+						$("#Tec_TEST").append("<h3><a id="+i+" href='#' onclick='NextPage_3(\""+ temp_data[i] +"\")'>" +temp_data[i] +"</a><h3><br>");
 					}
 				});
 				$.post("php/MyDataBase.php",

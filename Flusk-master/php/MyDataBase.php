@@ -177,7 +177,7 @@ switch ($Operation)
         break;
 
     case 'GET_TEST':
-        $item = ['实验名称'];
+        $item = ['名称'];
         $Condition_Name = [];
         $Condition_Value = [];
         $Result = $DBManage->ItemsInTable($item,'实验',$Condition_Name,$Condition_Value,0);
@@ -311,19 +311,45 @@ switch ($Operation)
             echo '技术动态下发失败！';
         }
         break;
+    case 'GET_TECTITLE':
+        $Field_Value = ['日期','名称'];
+        $Condition_Name = [];
+        $Condition_Value = [];
+        $Result = $DBManage->ItemsInTable($Field_Value,$_POST['table_name'],$Condition_Name,$Condition_Value,0);
+        echo json_encode($Result);
+        break;
+
     case 'GET_TITLE':
         $Field_Value = ['名称'];
         $Condition_Name = [];
         $Condition_Value = [];
         $Result = $DBManage->ItemsInTable($Field_Value,$_POST['table_name'],$Condition_Name,$Condition_Value,0);
         echo json_encode($Result);
+        break;
 
     case 'GET_CONTENT':
-        $Field_Value = ['内容'];
+        $Field_Value = ['名称','类别','内容'];
         $Condition_Name = ['名称'];
         $Condition_Value = [$_POST['content_title']];
         $Result = $DBManage->ItemsInTable($Field_Value,$_POST['table_name'],$Condition_Name,$Condition_Value,0);
         echo json_encode($Result);
+        break;
+
+    case 'GET_DEVCONTENT':
+        $Field_Value = ['名称','系别','内容'];
+        $Condition_Name = ['名称'];
+        $Condition_Value = [$_POST['content_title']];
+        $Result = $DBManage->ItemsInTable($Field_Value,$_POST['table_name'],$Condition_Name,$Condition_Value,0);
+        echo json_encode($Result);
+        break;
+
+    case 'GET_SUBSTUDENT':
+        $Field_Value = ['预约者'];
+        $Condition_Name = ['实验名称'];
+        $Condition_Value = [$_POST['content_title']];
+        $Result = $DBManage->ItemsInTable($Field_Value,$_POST['table_name'],$Condition_Name,$Condition_Value,1);
+        echo json_encode($Result);
+        break;
 
     case 'GET_TEACHERINFO':
         $item = ['姓名','教师信息'];

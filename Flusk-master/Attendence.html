@@ -38,7 +38,7 @@
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
         </div>
         <!--logo start-->
-        <a href="index.html" class="logo"><b>Dante<span>Fun</span></b></a>
+        <a href="index.html" class="logo"><b>开放<span>实验室</span></b></a>
         <!--logo end-->
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
@@ -58,9 +58,9 @@
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
                 <p class="centered">
-                    <a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a>
+                    <a href="profile.html"><img src="img/ui-zyf.jpg" class="img-circle" width="80"></a>
                 </p>
-                <h5 class="centered">Sam Soffes</h5>
+                <h5 class="centered">老师</h5>
                 <li class="sub-menu">
                     <a class="active" href="javascript:;">
                         <i class="fa fa-th"></i>
@@ -146,171 +146,7 @@
 <script src="lib/common-scripts.js"></script>
 <script>
     $(document).ready(function () {
-        var student_name,existed_length = 10;
-        var Classes = new Array();
-        Classes = ['上午一二节','上午三四节','上午第五节','下午一二节','下午三四节','晚上一二节','晚上第三节'];
-        student_name = decodeURI(parent.document.URL).slice(decodeURI(parent.document.URL).indexOf('?')+1);
-        $.post("php/MyDataBase.php",
-        {
-            student_name:student_name,
-            Operation:'GET_DEPLOYED',
-        },
-        function(data,status){
-            var temp_data = JSON.parse(data);
-            var Subscribe_Time = SubscribeTime();
-            var i,j,temp_name;
-            for(i=0;i<temp_data.length;i++)
-            {
-                $("#Order_tbody").append('<tr id="Order_tr_'+i+'">');
-            }
-            for(i=0;i<temp_data.length;i++)
-            {
-                temp_name = '#Order_tr_'+i;
-                for(j=0;j<temp_data[i].length;j++)
-                {
-                    $(temp_name).append('<td id="'+String(i)+'Order_td_'+String(j)+'">'+temp_data[i][j]+'</td>');
-                }
-            }
-            for(i=0;i<temp_data.length;i++)
-            {
-                temp_name = '#Order_tr_'+i;
-                $(temp_name).append('<td><select id="select_'+i+'" name="select_Name"></select></td>');
-                $(temp_name).append('<td><select id="select1_'+i+'" name="select1_Name"></select></td>');
-                $(temp_name).append('<button class="btn btn-theme02" type="button" id="Ode_'+String(i)+'">预约实验</button>');
-            }
-            for(i=0;i<temp_data.length;i++)
-            {
-                temp_name = '#select_'+i;
-                for(j=0;j<Subscribe_Time.length;j++)
-                {
-                    $(temp_name).append('<option name = "option_"'+String(i)+String(j)+' value ="'+Subscribe_Time[j]+'">'+Subscribe_Time[j]+'</option>');
-                }
-                temp_name = '#select1_'+i;
-                for(j=0;j<Classes.length;j++)
-                {
-                    $(temp_name).append('<option name = "option1_"'+String(i)+String(j)+' value ="'+Classes[j]+'">'+Classes[j]+'</option>');
-                }
-            }
-        });
 
-        $.post("php/MyDataBase.php",
-        {
-            student_name : student_name,
-            Operation:'GET_SUBSCRIBED',
-        },
-        function(data,status){
-            var temp_data = JSON.parse(data);
-            var i,j = 0,temp_name;
-            for(i=0;i<temp_data.length;i++)
-            {
-                $("#Ordered_tbody").append('<tr id="Ordered_tr_'+i+'">');
-            }
-            for(i=0;i<temp_data.length;i++)
-            {
-                j = 0;
-                temp_name = '#Ordered_tr_'+i;
-                $(temp_name).append('<td id="Ordered_name'+String(i)+'">'+temp_data[i][j++]+'</td>');
-                $(temp_name).append('<td id="Ordered_room'+String(i)+'">'+temp_data[i][j++]+'</td>');
-                $(temp_name).append('<td id="Ordered_date'+String(i)+'">'+temp_data[i][j++]+'</td>');
-                $(temp_name).append('<td id="Ordered_time'+String(i)+'">'+temp_data[i][j++]+'</td>');
-                $(temp_name).append('<button class="btn btn-theme04" type="button" id="cancel_'+String(i)+'">取消预约</button>');
-            }
-        });
-        $('#Order_tbody').on('click', function(event) {
-            var temp_name,button_id,test_name,room_name,subscribe_date,subscribe_time,select_temp;
-            temp_name = $(event.target).closest('button').attr("id");
-            temp_name = temp_name.split('_');
-            button_id = temp_name[1];
-
-            test_name = document.getElementById(button_id+'Order_td_0').innerText;
-            room_name = document.getElementById(button_id+'Order_td_1').innerText;
-
-            select_temp = document.getElementById('select_'+button_id);
-            subscribe_date = select_temp.options[select_temp.selectedIndex].text;
-            select_temp = document.getElementById('select1_'+button_id);
-            subscribe_time = select_temp.options[select_temp.selectedIndex].text;
-
-
-            $.post("PHP/MyDataBase.php",
-            {
-                test_name:test_name,
-                room_name:room_name,
-                subscribe_date:subscribe_date,
-                subscribe_time:subscribe_time,
-                student_name:student_name,
-                Operation:'INSERT_SUBSCRIBE'
-            },
-            function(data,status){
-                if(data == 'subscribe success')
-                {
-                    existed_length++;
-                    $('#Ordered_tbody').append('<tr id="Ordered_tr_'+existed_length+'"></tr>');
-                    temp_name = '#Ordered_tr_'+ existed_length;
-                    $(temp_name).append('<td id="Ordered_name'+existed_length+'">'+test_name+'</td>');
-                    $(temp_name).append('<td id="Ordered_room'+existed_length+'">'+ room_name +'</td>');
-                    $(temp_name).append('<td id="Ordered_date'+existed_length+'">'+ subscribe_date +'</td>');
-                    $(temp_name).append('<td id="Ordered_time'+existed_length+'">'+ subscribe_time +'</td>');
-                    $(temp_name).append('<td id="cancel_'+existed_length+'"><button class="btn btn-theme04" type="button" id="cancel_'+String(existed_length)+'">取消预约</button></td>');
-                }
-                else
-                {
-                    alert(data);
-                }
-            });
-        });
-
-        $('#Ordered_tbody').on('click', function(event) {
-            var temp_name,button_id,test_name,room_name,subscribe_date,subscribe_time;
-            temp_name = $(event.target).closest('button').attr("id");
-            temp_name = temp_name.split('_');
-            button_id = temp_name[1];
-
-            test_name = document.getElementById('Ordered_name'+button_id).innerText;
-            room_name = document.getElementById('Ordered_room'+button_id).innerText;
-            subscribe_date = document.getElementById('Ordered_date'+button_id).innerText;
-            subscribe_time = document.getElementById('Ordered_time'+button_id).innerText;
-
-            $.post("PHP/MyDataBase.php",
-            {
-                test_name:test_name,
-                room_name:room_name,
-                subscribe_date:subscribe_date,
-                subscribe_time:subscribe_time,
-                Operation:'DELETE_SUBSCRIBED'
-            },
-            function(data,status){
-                alert(data);
-            });
-        });
-
-        $('#Attendence_tbody').on('click', function(event) {
-            var temp_name,button_id,test_name,room_name,subscribe_date,subscribe_time;
-            temp_name = $(event.target).closest('button').attr("id");
-            temp_name = temp_name.split('_');
-            button_id = temp_name[1];
-
-            test_name = document.getElementById('Attendence_name'+button_id).innerText;
-            subscribe_date = document.getElementById('Attendence_date'+button_id).innerText;
-            subscribe_time = document.getElementById('Attendence_time'+button_id).innerText;
-
-            $.post("PHP/MyDataBase.php",
-            {
-                test_name:test_name,
-                subscribe_date:subscribe_date,
-                subscribe_time:subscribe_time,
-                Operation:'INSERT_ATTENDENCE'
-            },
-            function(data,status){
-                if(data == 'insert success')
-                {
-
-                }
-                else
-                {
-                    alert(data);
-                }
-            });
-        });
     });
 </script>
 </body>
